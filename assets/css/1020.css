@@ -1,0 +1,83 @@
+.span1,
+.span2,
+.span3,
+.span4,
+.span5,
+.span6,
+.span7,
+.span8,
+.span9,
+.span10,
+.span11 {
+  float: left;
+  margin-right: 20px; }
+
+.span1 {
+  width: 64px; }
+
+.span2 {
+  width: 148px; }
+
+.span3 {
+  width: 232px; }
+
+.span4 {
+  width: 316px; }
+
+.span5 {
+  width: 400px; }
+
+.span6 {
+  width: 484px; }
+
+.span7 {
+  width: 568px; }
+
+.span8 {
+  width: 652px; }
+
+.span9 {
+  width: 736px; }
+
+.span10 {
+  width: 820px; }
+
+.span11 {
+  width: 904px; }
+
+.span12 {
+  width: 1008px;
+  float: left; }
+
+#header-container {
+  width: 1088px;
+  margin: 0 auto; }
+
+.nav-link, .subnav-link {
+  font-size: 14px;
+  float: left; }
+
+#subnav {
+  width: 316px;
+  float: right; }
+
+.subnav-link {
+  margin-left: 20px;
+  float: right; }
+
+#nav {
+  width: 652px;
+  float: right;
+  margin: 21px 0; }
+
+.nav-link {
+  margin-right: 20px;
+  line-height: 21px;
+  padding: 5px 0;
+  float: right; }
+
+.btn-small {
+  line-height: 21px;
+  padding: 4px 10px;
+  font-size: 15px;
+  border-radius: 4px; }

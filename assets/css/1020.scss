@@ -1,0 +1,101 @@
+$col: 64px;
+$gutter: 20px;
+$gutter-rails:40px;
+
+$line-height: 21px;
+$fontsize: 15px;
+$fontsize-title: $fontsize + 3;
+$fontsize-headline: $fontsize * 2 + 3;
+
+.span1,
+.span2,
+.span3,
+.span4,
+.span5,
+.span6,
+.span7,
+.span8,
+.span9,
+.span10,
+.span11 {
+	float: left;
+	margin-right: $gutter;
+}
+.span1 {
+	width: $col * 1;
+}
+.span2 {
+	width: $col * 2 + $gutter * 1;
+}
+.span3 {
+	width: $col * 3 + $gutter * 2;
+}
+.span4 {
+	width: $col * 4 + $gutter * 3;
+}
+.span5 {
+	width: $col * 5 + $gutter * 4;
+}
+.span6 {
+	width: $col * 6 + $gutter * 5;
+}
+.span7 {
+	width: $col * 7 + $gutter * 6;
+}
+.span8 {
+	width: $col * 8 + $gutter * 7;
+}
+.span9 {
+	width: $col * 9 + $gutter * 8;
+}
+.span10 {
+	width: $col * 10 + $gutter * 9;
+}
+.span11 {
+	width: $col * 11 + $gutter * 10;
+}
+.span12 {
+	width: $col * 12 + $gutter * 12;
+	float: left;
+}
+
+
+
+#header-container {
+	width: $col * 12 + $gutter * 12 + $gutter-rails * 2;
+	margin: 0 auto;
+}
+
+.nav-link, .subnav-link {
+	font-size: $fontsize - 1;
+	float: left;
+}
+
+#subnav {
+	width: $col * 4 + $gutter * 3;
+	float: right;	
+}
+.subnav-link {
+	margin-left: $gutter;
+	float: right;
+}
+
+#nav {
+	width: $col * 8 + $gutter * 7;
+	float: right;
+	margin: $line-height 0;
+}
+.nav-link {
+	margin-right: $gutter;
+	line-height:$line-height;
+	padding: 5px 0;
+	float: right;
+}
+
+
+.btn-small {
+	line-height:$line-height;
+	padding: 4px $gutter/2;
+	font-size: $fontsize;
+	border-radius: 4px;
+}

@@ -1,0 +1,761 @@
+@import "reset";
+// @import "normalize";
+
+// ============ Variables ============ //
+$bgclor: #f2f4f6;
+$grey-dark: #333;
+.grey-dark { color: $grey-dark; }
+$grey: #636363;
+.grey { color: $grey; }
+$grey-light: #999;
+.grey-light { color: $grey-light; }
+$grey-lighter: #ccc;
+.grey-lighter { color: $grey-lighter; }
+$border-color: #e3e3e3;
+$blue: #0c88d9;
+.white { color: #fff; }
+
+// =========== [HELPERS] =========== //
+
+html* { -webkit-font-smoothing:antialiased; text-rendering: optimizelegibility; }
+html {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  tap-highlight-color: rgba(0,0,0,0);
+}
+
+a {
+  text-decoration: none;
+}
+
+strong {
+  font-weight: bold;
+}
+
+@mixin row {
+  zoom: 1;
+
+  &:before,
+  &:after {
+    content: "";
+    display: table;
+    line-height: 0;
+  }
+
+  &:after {
+    clear: both;
+  }
+}
+
+.row {
+  @include row;
+}
+
+.clear {
+  clear: both;
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+.floatleft { float: left; }
+.floatright { float: right; }
+
+.textright { text-align: right; }
+
+.center {
+  text-align: center;
+}
+
+// =========== [MIXINS] =========== //
+
+// Acknowledgments
+// Micro clearfix: [Nicolas Gallagher](http://nicolasgallagher.com/micro-clearfix-hack/)
+
+// ============ BOX-SHADOW ============ //
+@mixin box-shadow($value){
+  -webkit-box-shadow: $value;
+     -moz-box-shadow: $value;
+          box-shadow: $value;
+}
+@mixin box-shadow-none(){
+  -webkit-box-shadow: none;
+     -moz-box-shadow: none;
+          box-shadow: none;
+}
+@mixin box-shadow2($value1,$value2){
+  -webkit-box-shadow: $value1, $value2;
+  -moz-box-shadow:    $value1, $value2;
+  box-shadow:         $value1, $value2;
+}
+
+
+// =========== FONT-FACE =========== //
+@mixin font-face($font-family, $file-path, $weight: normal, $style: normal, $asset-pipeline: false ) {
+  @font-face {
+    font-family: $font-family;
+    font-weight: $weight;
+    font-style: $style;
+
+    @if $asset-pipeline == true {
+      src: font-url('#{$file-path}.eot');
+      src: font-url('#{$file-path}.eot?#iefix')          format('embedded-opentype'),
+           font-url('#{$file-path}.woff')                format('woff'),
+           font-url('#{$file-path}.ttf')                 format('truetype'),
+           font-url('#{$file-path}.svg##{$font-family}') format('svg');
+    } @else {
+      src: url('#{$file-path}.eot');
+      src: url('#{$file-path}.eot?#iefix')               format('embedded-opentype'),
+           url('#{$file-path}.woff')                     format('woff'),
+           url('#{$file-path}.ttf')                      format('truetype'),
+           url('#{$file-path}.svg##{$font-family}')      format('svg');
+    }
+  }
+}
+
+// ============ GRADIENTS ============ //
+@mixin gradient ($color1, $color2) {
+    background: $color1; 
+    background: -moz-linear-gradient(top,  $color1 0%, $color2 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$color1), color-stop(100%,$color2)); 
+    background: -webkit-linear-gradient(top,  $color1 0%,$color2 100%);
+    background: -o-linear-gradient(top,  $color1 0%,$color2 100%);
+    background: -ms-linear-gradient(top,  $color1 0%,$color2 100%);
+    background: linear-gradient(to bottom,  $color1 0%,$color2 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$color1', endColorstr='$color2',GradientType=0 );
+}
+
+
+
+// ========== TRANSFORMS ============ //
+@mixin transform($property) {
+          transform:($property);
+      -ms-transform:($property); /* Internet Explorer */
+     -moz-transform:($property); /* Firefox */
+  -webkit-transform:($property); /* Safari and Chrome */
+       -o-transform:($property); /* Opera */
+}
+
+// =========== ANIMATION TRANSITIONS =========== //
+@mixin transition($property, $duration, $easing){
+          transition: $property $duration $easing;          
+  -webkit-transition: $property $duration $easing;
+     -moz-transition: $property $duration $easing;
+       -o-transition: $property $duration $easing;
+}
+
+// @font-face definitions
+@include font-face(proxima, 'fonts/proximanova-light', normal);
+@include font-face(proxima, 'fonts/proximanova-bold', bold);
+@include font-face(proxima-extrabold, 'fonts/proximanova-extrabold', bold);
+
+$font-proxima: "Proxima", "Helvetica Neue", Helvetica, Arial, Sans-serif;
+$font-proxima-extrabold: "Proxima-ExtraBold", "Helvetica Neue", Helvetica, Arial, Sans-serif;
+$font-default: "Lucida Sans Unicode", "Lucida Grande", Tahoma, Verdana, Arial, sans-serif;;
+$font-sansserif: "Helvetica Neue", Helvetica, Arial, Sans-serif;
+
+
+// Gradients
+.gradient-grey, .gradient-green, .gradient-space {
+  //filter: none \0/IE9;  
+  //background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ViZWJlYiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkMGQwZDAiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+); // grey
+  //background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzI5Y2U1ZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDljM2MiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+) \0/IE9 ; // green
+}
+
+.gradient-grey, .gradient-grey:visited {
+  @include gradient (rgba(235,235,235,1), rgba(208,208,208,1));
+  @include box-shadow2 (0 1px 0 0 #fff inset, 0px 1px 1px 0 rgba(0,0,0,0.3));
+  border:1px solid #555;
+  color:#555;
+  text-shadow: #fff 0px 1px 0px;
+}
+
+.gradient-grey:hover {
+  @include gradient (rgba(243,243,243,1), rgba(205,205,205,1));
+  @include box-shadow2 (0 1px 0 0 #fff inset, 0px 1px 1px 0 rgba(0,0,0,0.5));
+  border:1px solid #333;
+  color:#333;
+}
+
+.gradient-grey:active {
+  @include gradient (rgba(214,214,214,1), rgba(194,194,194,1));
+  @include box-shadow2 (0 1px 3px 1px #aaa inset, 0 1px 0 0 rgba(255,255,255,0.95));
+  border:1px solid #555;
+  color: #111;
+}
+
+.gradient-green, .gradient-green:visited {
+  @include gradient (#29ce5d, #008f37);
+  @include box-shadow2 (0 1px 0 0 #87eda4 inset, 0px 1px 1px 0 rgba(0,0,0,0.3));
+  border: 1px solid #003916;
+  color: white;
+  text-shadow: 0px -1px #0b6b29;
+}
+
+.gradient-green:hover {
+  @include gradient (rgba(52,219,115,1), rgba(3,155,56,1));
+  @include box-shadow2 (0 1px 0 0 #87eda4 inset, 0px 1px 2px 0 rgba(0,0,0,0.5));
+  border: 1px solid #011807;
+}
+
+.gradient-green:active {
+  @include gradient (rgba(30,163,80,1), rgba(13,132,57,1));
+  @include box-shadow2(0 0px 3px 1px #087732 inset, 0 1px 0 0 rgba(255,255,255,0.5));
+}
+
+.gradient-blue, .gradient-blue:visited {
+  @include gradient (rgba(20,137,212,1), rgba(13,104,182,1));
+  @include box-shadow2(0 1px 0 0 #64ace4 inset,0px 1px 1px 0 rgba(0,0,0,0.3) );
+  border:1px solid #002a7f;
+  color:white;
+  text-shadow: 0px -1px #024879;
+}
+
+.gradient-blue:hover {
+  @include gradient (rgba(31,159,232,1), rgba(20,127,214,1));
+  @include box-shadow2(0 1px 0 0 #64ace4 inset, 0px 1px 2px 0 rgba(0,0,0,0.5));
+  border: 1px solid #00240e;
+}
+
+.gradient-blue:active {
+  @include gradient (rgba(14,108,209,1), rgba(9,83,181,1));
+  @include box-shadow2(0 1px 3px 1px #0d518d inset, 0 1px 0 0 rgba(255,255,255,0.8));
+}
+
+.gradient-space, .gradient-space:visited {
+  border: 1px solid #fff;
+  color: white;
+}
+
+.gradient-space:hover {
+  @include gradient (rgba(31,159,232,1), rgba(20,127,214,1));
+  @include box-shadow2(0 1px 0 0 #64ace4 inset, 0px 1px 2px 0 rgba(0,0,0,0.5));
+  border:1px solid #002a7f;
+  text-shadow: 0px -1px #0b1d6b;
+}
+
+.gradient-space:active {
+  @include gradient (rgba(14,108,209,1), rgba(9,83,181,1));
+  @include box-shadow2(0 1px 3px 1px #0d518d inset, 0 1px 0 0 rgba(255,255,255,0.5));
+  border:1px solid #002a7f;
+  text-shadow: 0px -1px #0b1d6b;
+}
+
+// Buttons
+.btn-small {
+  font-family: $font-proxima;
+  font-weight: bold;
+  display: inline-block;
+  vertical-align: middle;
+  text-decoration: none;
+}
+
+.btn-large {
+  font-family: $font-proxima;
+  font-weight: bold;
+  display: inline-block;
+  vertical-align: middle;
+  text-decoration: none;
+}
+
+// Menu navigation
+#logo { background-image: url('../img/logo.png'); }
+
+@media 
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (   min--moz-device-pixel-ratio: 2),
+only screen and (     -o-min-device-pixel-ratio: 2/1),
+only screen and (        min-device-pixel-ratio: 2),
+only screen and (                min-resolution: 192dpi),
+only screen and (                min-resolution: 2dppx) { 
+
+#logo { background-image: url('../img/logo-2x.png'); }
+
+}
+
+
+#logo {
+  background-repeat: no-repeat;
+  background-position: top;
+  display: block;
+  float: left;
+}
+
+#logo:hover {
+  background-position: bottom;
+}
+
+#logo span {
+  display: none;
+}
+
+.subnav-link {
+  font-family: $font-proxima;
+  font-weight: regular;
+  color: #fff;
+  text-decoration: none;
+}
+
+.nav-link {
+  font-family: $font-proxima;
+  font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.nav-link.active {
+
+}
+
+
+// Content
+body { background: $bgclor; }
+#content {
+  width: 100%;
+  padding: 1px 0;
+  background: $bgclor;
+  @include box-shadow (0 -3px 5px 0 rgba(0,0,0,.25));
+}
+
+.content-container {
+  background: #fff;
+  @include box-shadow (0 1px 5px 0px rgba(0,0,0,.2));
+}
+
+.title, .title-small {
+  font-family: $font-proxima;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: $grey-dark;
+}
+
+.headline, .headline0 {
+  font-family: $font-proxima;
+  font-weight: lighter;
+  color: $grey-dark;
+}
+
+.headline-white {
+  font-family: $font-proxima;
+  font-weight: lighter;
+  color: #fff;
+  text-shadow: 0px 1px 3px rgba(0,0,0,.8);
+}
+
+.headline-small{
+  font-family: $font-proxima;
+  font-weight: lighter;
+  color: $grey-dark;
+}
+
+.headline-large {
+  font-family: $font-proxima;
+  color: #fff;
+  text-align: center;
+  text-shadow: 0px 1px 4px rgba(0,0,0,.8);
+}
+
+.headline-larger {
+  font-family: $font-proxima-extrabold;
+  color: #fff;
+  text-align: center;
+  text-shadow: 0px 1px 4px rgba(0,0,0,.8);
+}
+
+.subtitle-large {
+  font-family: $font-default;
+  color: #fff;
+  text-align: center;
+  text-shadow: 0px 1px 4px rgba(0,0,0,.8);
+}
+
+.subtitle-larger {
+  font-family: $font-proxima;
+  color: #fff;
+  text-shadow: 0px 1px 4px rgba(0,0,0,.8);
+}
+
+.title-white {
+  font-family: $font-proxima;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0px 1px 3px rgba(0,0,0,.8);
+
+}
+
+.body, .body-small, .body-smaller {
+  font-family: $font-default;
+  color: $grey-light;
+}
+
+ .body-large {
+  font-family: $font-default;
+  color: $grey; 
+ }
+
+.body-white, .body-white-small, .body-white-smaller, .body-large-white {
+  color: #fff;
+  font-family: $font-default;
+}
+
+.body-dark, .body-dark-small {
+  color: $grey-dark;
+  font-family: $font-default;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid $border-color;
+}
+
+.list {
+  list-style-type: disc;
+  display: block;
+}
+
+.link, .link-small, .link-plain {
+  color: $blue;
+  text-decoration: none;
+}
+
+.link:hover, .link-small:hover, .link-plain:hover {
+  border-bottom: 1px solid $blue; 
+}
+
+img.boxshadow {
+  @include box-shadow (0 1px 8px rgba(0,0,0,.6));
+}
+
+.polaroid img, img.polaroid {
+  background: white;
+  @include box-shadow2 (0 0 0 1px rgba(0,0,0,.15), 0 1px 3px rgba(0,0,0,.25));
+  // @include transition (box-shadow, 0.1s, ease-in);
+}
+
+.polaroid:hover img {
+ @include box-shadow2 (0 0 0 1px lighten($blue, 10%), 0 1px 4px 1px rgba(0,0,0,.4)); 
+}
+
+.polaroid:active img {
+@include box-shadow2 (0 0 0 1px lighten($blue, 0%), 0px 1px 3px 0px rgba(0,0,0,.6) inset);
+}
+
+.polaroid center{
+  // border-bottom: 1px solid #fff;
+  text-align: center;
+  font-family: $font-default;
+  color: $blue;
+  @include transition (border, 0.1s, ease-in);
+}
+
+.polaroid:hover center{
+  // border-bottom: 1px solid $blue;
+}
+
+img.appicon {
+  @include box-shadow (0 1px 3px (rgba(0,0,0,.8)));
+}
+
+img.circular {
+  border-radius: 9999px;
+  @include box-shadow (0 2px 8px (rgba(0,0,0,.5)));
+}
+
+a:hover img.circular {
+  @include box-shadow (0 3px 12px (rgba(0,0,0,.7)));
+}
+
+a:active img.circular {
+  @include box-shadow (0 2px 12px (rgba(0,0,0,.5)));
+}
+
+
+section.gradient-top {
+  background: url(../img/bg-gradient-top.png);
+  background-position: center top;
+  background-repeat: repeat-x;
+  background-clip: border-box;
+  border-top: 1px solid $border-color;
+}
+
+section.gradient-bottom {
+  background: url(../img/bg-gradient-bottom.png);
+  background-position: center bottom;
+  background-repeat: repeat-x;
+  background-clip: border-box;
+  border-bottom: 1px solid $border-color;
+}
+
+section.gradient-inset {
+  background: url(../img/bg-gradientinset-top.png), url(../img/bg-gradientinset-bottom.png), #f5f6f8;
+  background-position: top, bottom;
+  background-repeat: repeat-x;
+}
+
+.borderbottom {
+  border-bottom: 1px solid $border-color;
+}
+
+.bordertop {
+  border-top: 1px solid $border-color;
+}
+
+#header-small {
+  background: url(../img/brands-header-bg.jpg);
+  background-position: center top;
+}
+
+.section-small {
+  @include gradient(#fff,#f3f3f3);
+  @include box-shadow (0px 1px 4px (rgba(0,0,0,0.2)) inset);
+}
+
+// footer
+#footer-social {
+  float: left;
+}
+
+#footer-social span{
+  vertical-align: top;
+  font-family: $font-default;
+  color: $grey;
+}
+
+#footer-social img {
+  opacity: 0.5;
+}
+
+#footer-social img:hover {
+  opacity: 0.8;
+  // @include transition(opacity, 0.2s, ease-out);
+}
+
+#footer-social img:active {
+  opacity: 1.0;
+}
+
+#footer-newsletter {
+  float: right;
+  vertical-align: middle;
+}
+
+#footer-nav {
+  text-align: center;
+}
+
+#footer-nav li {
+  font-family: $font-proxima;
+  font-weight: bold;
+  text-transform: uppercase;
+  display: inline;
+}
+
+#footer-nav li a {
+  color: $grey-light;
+  text-shadow: 0 1px rgba(255,255,255,1);
+  text-decoration: none; 
+}
+
+#footer-nav li a:hover {
+  color: $grey;
+}
+
+#footer-nav li a:active {
+  color: $grey-dark;
+}
+#footer p {
+  color: $grey-light;
+  font-family: $font-default;
+  text-align: center;
+}
+
+// Home
+#home-header {
+  background: url(../img/home-header-bg.jpg);
+  background-position: center top;
+}
+
+.customers-link:hover{
+  @include gradient (rgba(84,159,219,0), rgba(84,159,219,0.33));
+  @include box-shadow (0 -4px 4px 0px rgba(0,0,0,.25) inset);
+}
+
+
+.customers-link .customers-icon img {
+  @include transition (all, 0.15s, ease-out);
+
+}
+.customers-link:hover .customers-icon img {
+  @include transform (translateY(-15px));
+
+}
+
+.customers-link:hover .gradient-space {
+  @include gradient (rgba(31,159,232,1), rgba(20,127,214,1));
+  @include box-shadow2(0 1px 0 0 #64ace4 inset, 0px 1px 2px 0 rgba(0,0,0,0.3));
+  border:1px solid #0b2250;
+  text-shadow: 0px -1px #0b1d6b;
+}
+
+.customers-link:active .gradient-space {
+  @include gradient (rgba(14,108,209,1), rgba(9,83,181,1));
+  @include box-shadow2(0 1px 3px 1px #0d518d inset, 0 1px 0 0 rgba(255,255,255,0.3));
+  border:1px solid #0b2250;
+  text-shadow: 0px -1px #0b1d6b;
+}
+
+#header-slider, #partners-slider {
+  width: 100%;
+  overflow:hidden;
+  margin: 0 auto;
+}
+
+.customers-body span {
+  font-family: $font-proxima;
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 0px 1px 3px rgba(0,0,0,.8);
+}
+
+#home-twitter {
+  background: #e0f6fd;
+  border-bottom: 1px solid #c1e3ee;
+  display: block;
+  font-family: $font-default;
+  color: $grey;
+}
+
+.tweet { font-family: $font-default; }
+.tweet p { color: $grey-light; }
+.tweet_list li a { color: $blue; }
+.tweet_list li a:hover { border-bottom: 1px solid $blue; } 
+
+.tweet_time a:after {
+    content: " → "; }
+
+
+#home-press {
+  background: url(../img/home-press-bg.gif);
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  background-clip: border-padding;
+}
+
+#home-research {
+  background: url(../img/home-research-bg.gif);
+  background-position: right top;
+  background-repeat: no-repeat;
+  background-clip: border-padding;
+}
+
+#home-press:hover span, #home-research:hover span {
+  border-bottom: 1px solid $blue;
+}
+
+// Brands
+#brands-header {
+  background: url(../img/brands-header-bg.jpg);
+  background-position: center top;
+  height: 400px;
+  text-align: center;
+}
+
+#brands-instantplay {
+  background: url(../img/brands-instantplay-bg.jpg);
+  background-position: bottom center;
+  background-repeat: no-repeat;
+  text-align: center;
+}
+
+#brands-network {
+  background: url('../img/brands-network-bg.jpg');
+  background-position: center center;
+  color: #fff;
+  text-align: center;
+}
+
+#brands-adtracking {
+  text-align: center;
+}
+
+#brands-instantplay-endcards {
+  background: url(../img/brands-instantplay-endcards.jpg);
+  background-repeat: no-repeat;
+  border-bottom: 1px solid $border-color;
+}
+
+#brands-endcards-endcards {
+  background: url(../img/brands-endcards-endcards-bg.jpg);
+  background-repeat: no-repeat; 
+}
+
+#brands-endcards-compatibility {
+  background: url('../img/brands-endcards-compatibility-bg.jpg');
+  background-repeat: no-repeat;
+}
+
+// Mondetization
+#monetization-header {
+  background: url(../img/monetization-header-bg.jpg);
+  background-position: center top;
+  height: 400px;
+  text-align: center;
+}
+
+#monetization-useracquisition {
+  border-top: 1px solid $border-color;
+}
+
+// User acquisition
+#ua-header {
+  background: url(../img/ua-header-bg.jpg);
+  background-position: center top;
+  height: 400px;
+  text-align: center;
+}
+
+#company-nav a{
+  font-family: $font-proxima;
+}
+
+.company-navlink a { 
+  margin-left: -.25em;
+  padding: .25em;
+  line-height:2em;
+  color: $blue;
+  border-radius: 3px;
+}
+
+.company-navlink a:hover {
+  background: lighten($blue, 43%);
+  border: none;
+  color: $blue;
+}
+
+.company-navlink {
+  a.active,  a:focus {
+  //border-bottom: 3px solid $blue;
+  background: $blue;
+  color: white;
+padding: .25em;
+margin-left: -.25em;
+
+  //font-weight: bold;
+}}
+
+.company-navlink .active:hover {
+    border-bottom: none;
+}
+// Case Studies
+
+// Press Markdown
+ul#news-markdown, ul#press-markdown{
+  h1 { @extend .title-small }
+  p { @extend .body; }
+  a { @extend .link }
+}
